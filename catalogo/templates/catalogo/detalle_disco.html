@@ -1,0 +1,31 @@
+{% extends 'catalogo/base.html' %}
+{% block title %}{{ disco.titulo }} - Ficha técnica{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h1>{{ disco.titulo }}</h1>
+    <h2>{{ disco.artista }}</h2>
+
+    {% if disco.portada %}
+        <div class="cover-hero">
+            <img src="{{ disco.portada.url }}" alt="Portada de {{ disco.titulo }}" class="cover-image">
+        </div>
+    {% endif %}
+
+    <div class="form-grid" style="margin-top: 18px;">
+        <p><strong>Año de edición:</strong> {{ disco.ano_edicion }}</p>
+        <p><strong>Sello discográfico:</strong> {{ disco.sello_discografico }}</p>
+        <p><strong>Formato:</strong> {{ disco.formato }}</p>
+        <p><strong>Cargado por:</strong> {{ disco.autor.username }}</p>
+        <h3>Reseña / comentarios</h3>
+        <p style="white-space: pre-line; color: var(--muted);">{{ disco.resena|default:"Sin reseña disponible." }}</p>
+    </div>
+
+    <div class="toolbar" style="margin-top: 22px;">
+        <a href="{% url 'home' %}" class="btn-secondary">← Volver al catálogo</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'editar_disco' disco.pk %}" class="btn-primary">✏️ Editar fonograma</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

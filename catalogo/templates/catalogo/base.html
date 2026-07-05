@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Vinilo & Colección{% endblock %}</title>
+    {% load static %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'catalogo/css/styles.css' %}">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="site-header">
+            <a href="{% url 'home' %}" class="brand">
+                <span class="brand-mark">♪</span>
+                <span>
+                    <strong>Vinilo & Colección</strong>
+                    <small>Catálogo de fonogramas</small>
+                </span>
+            </a>
+
+            <nav class="site-nav">
+                {% if user.is_authenticated %}
+                    <span class="user-pill">Hola, {{ user.username }}</span>
+                    <form method="post" action="{% url 'logout' %}" class="inline-form">
+                        {% csrf_token %}
+                        <button type="submit" class="text-btn">Cerrar sesión</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">Iniciar sesión</a>
+                    <a href="{% url 'registro' %}" class="nav-link nav-link-primary">Crear cuenta</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        <main class="content">
+            {% if messages %}
+                <div class="message-stack">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

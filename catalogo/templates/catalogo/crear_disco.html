@@ -1,0 +1,24 @@
+{% extends 'catalogo/base.html' %}
+{% block title %}Nuevo fonograma{% endblock %}
+
+{% block content %}
+<div class="panel" style="max-width: 640px; margin: 0 auto;">
+    <h1>Nuevo fonograma</h1>
+    <p style="color: var(--muted);">Completa los datos para añadir una nueva referencia al catálogo.</p>
+
+    <form method="POST" enctype="multipart/form-data" class="form-grid">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div>
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 8px;">Guardar fonograma</button>
+    </form>
+
+    <a href="{% url 'home' %}" class="btn-secondary" style="margin-top: 14px; display: inline-flex;">← Cancelar y volver</a>
+</div>
+{% endblock %}

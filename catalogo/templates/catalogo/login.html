@@ -1,0 +1,24 @@
+{% extends 'catalogo/base.html' %}
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+<div class="panel" style="max-width: 460px; margin: 0 auto;">
+    <h1>Iniciar sesión</h1>
+    <p style="color: var(--muted);">Accedé a tu cuenta para administrar el catálogo.</p>
+
+    {% if form.errors %}
+        <p class="errorlist">Usuario o contraseña incorrectos. Intentá de nuevo.</p>
+    {% endif %}
+
+    <form method="POST" class="form-grid">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-primary" style="width: 100%;">Entrar</button>
+    </form>
+
+    <div style="margin-top: 16px; text-align: center; color: var(--muted);">
+        <p>¿No tenés cuenta? <a href="{% url 'registro' %}" class="nav-link" style="padding: 0;">Registrate acá</a></p>
+        <a href="{% url 'home' %}" class="btn-secondary" style="display: inline-flex;">← Volver al inicio</a>
+    </div>
+</div>
+{% endblock %}

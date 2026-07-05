@@ -1,0 +1,42 @@
+{% extends 'catalogo/base.html' %}
+{% block title %}Catálogo de discos{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Explora el catálogo con estilo</h1>
+    <p>Descubrí ediciones discográficas, obras de colección y nuevas referencias en un entorno limpio, elegante y pensado para destacar cada fonograma.</p>
+</div>
+
+<div class="toolbar">
+    <form method="GET" action="{% url 'home' %}" class="search-form">
+        <input type="text" name="buscar" class="search-input" placeholder="Buscar por título o artista..." value="{{ buscar|default:'' }}">
+        <button type="submit" class="btn-primary">Buscar</button>
+        {% if buscar %}
+            <a href="{% url 'home' %}" class="btn-secondary">Limpiar</a>
+        {% endif %}
+    </form>
+
+    <a href="{% url 'crear_disco' %}" class="btn-primary">+ Agregar fonograma</a>
+</div>
+
+<div class="grid">
+    {% for disco in discos %}
+        <article class="card">
+            <a href="{% url 'detalle_disco' disco.pk %}">
+                {% if disco.portada %}
+                    <img src="{{ disco.portada.url }}" alt="Portada de {{ disco.titulo }}" class="portada-tarjeta">
+                {% else %}
+                    <div class="portada-tarjeta" style="display:flex;align-items:center;justify-content:center;color:#8a8f99;font-size:0.95rem;">Sin portada</div>
+                {% endif %}
+
+                <h3>{{ disco.titulo }}</h3>
+                <p><strong>Artista:</strong> {{ disco.artista }}</p>
+                <p><strong>Año:</strong> {{ disco.ano_edicion }}</p>
+                <span class="badge">{{ disco.formato }}</span>
+            </a>
+        </article>
+    {% empty %}
+        <div class="empty-state">No se encontraron fonogramas cargados.</div>
+    {% endfor %}
+</div>
+{% endblock %}
